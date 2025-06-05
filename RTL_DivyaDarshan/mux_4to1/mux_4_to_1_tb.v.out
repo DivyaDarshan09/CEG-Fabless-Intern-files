@@ -1,0 +1,91 @@
+#! /c/iverilog/bin/vvp
+:ivl_version "0.9.7 " "(v0_9_7)";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_012E45E8 .scope module, "mux_4_to_1_tb" "mux_4_to_1_tb" 2 3;
+ .timescale 0 0;
+v012EE550_0 .var "a", 3 0;
+v012EE5A8_0 .var "b", 3 0;
+v012EE600_0 .var "c", 3 0;
+v012EE658_0 .var "d", 3 0;
+v012EE6B0_0 .net "out", 3 0, v012EE4A0_0; 1 drivers
+v012EE708_0 .var "sel", 1 0;
+S_012E33D8 .scope module, "DUT" "mux_4_to_1" 2 9, 3 1, S_012E45E8;
+ .timescale 0 0;
+v012E3460_0 .net "a", 3 0, v012EE550_0; 1 drivers
+v012E34B8_0 .net "b", 3 0, v012EE5A8_0; 1 drivers
+v012EE3F0_0 .net "c", 3 0, v012EE600_0; 1 drivers
+v012EE448_0 .net "d", 3 0, v012EE658_0; 1 drivers
+v012EE4A0_0 .var "out", 3 0;
+v012EE4F8_0 .net "sel", 1 0, v012EE708_0; 1 drivers
+E_01133D58/0 .event edge, v012EE4F8_0, v012E3460_0, v012E34B8_0, v012EE3F0_0;
+E_01133D58/1 .event edge, v012EE448_0;
+E_01133D58 .event/or E_01133D58/0, E_01133D58/1;
+    .scope S_012E33D8;
+T_0 ;
+    %wait E_01133D58;
+    %load/v 8, v012EE4F8_0, 2;
+    %cmpi/u 8, 0, 2;
+    %jmp/1 T_0.0, 6;
+    %cmpi/u 8, 1, 2;
+    %jmp/1 T_0.1, 6;
+    %cmpi/u 8, 2, 2;
+    %jmp/1 T_0.2, 6;
+    %cmpi/u 8, 3, 2;
+    %jmp/1 T_0.3, 6;
+    %set/v v012EE4A0_0, 0, 4;
+    %jmp T_0.5;
+T_0.0 ;
+    %load/v 8, v012E3460_0, 4;
+    %set/v v012EE4A0_0, 8, 4;
+    %jmp T_0.5;
+T_0.1 ;
+    %load/v 8, v012E34B8_0, 4;
+    %set/v v012EE4A0_0, 8, 4;
+    %jmp T_0.5;
+T_0.2 ;
+    %load/v 8, v012EE3F0_0, 4;
+    %set/v v012EE4A0_0, 8, 4;
+    %jmp T_0.5;
+T_0.3 ;
+    %load/v 8, v012EE448_0, 4;
+    %set/v v012EE4A0_0, 8, 4;
+    %jmp T_0.5;
+T_0.5 ;
+    %jmp T_0;
+    .thread T_0, $push;
+    .scope S_012E45E8;
+T_1 ;
+    %set/v v012EE550_0, 0, 4;
+    %movi 8, 1, 4;
+    %set/v v012EE5A8_0, 8, 4;
+    %movi 8, 2, 4;
+    %set/v v012EE600_0, 8, 4;
+    %movi 8, 3, 4;
+    %set/v v012EE658_0, 8, 4;
+    %set/v v012EE708_0, 0, 2;
+    %delay 10, 0;
+    %movi 8, 1, 2;
+    %set/v v012EE708_0, 8, 2;
+    %delay 10, 0;
+    %movi 8, 2, 2;
+    %set/v v012EE708_0, 8, 2;
+    %delay 10, 0;
+    %set/v v012EE708_0, 1, 2;
+    %delay 10, 0;
+    %vpi_call 2 23 "$finish";
+    %end;
+    .thread T_1;
+    .scope S_012E45E8;
+T_2 ;
+    %vpi_call 2 27 "$monitor", "Time = %0t | sel = %b | out = %b", $time, v012EE708_0, v012EE6B0_0;
+    %end;
+    .thread T_2;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "mux_4_to_1_tb.v";
+    "./mux_4_to_1.v";
